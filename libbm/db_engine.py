@@ -74,7 +74,9 @@ class DBEngine:
         )
 
     def get_site(self, site_id: str) -> tuple:
-        self.__read_one("SELECT id, name, url FROM sites WHERE id = ?", (site_id,))
+        return self.__read_one(
+            "SELECT id, name, url FROM sites WHERE id = ?", (site_id,)
+        )
 
     def get_sites(self, tags: list[str]) -> list[tuple]:
         tags_count = len(tags)
