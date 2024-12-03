@@ -116,6 +116,10 @@ class DBEngine:
     def delete_site(self, site_id: str):
         self.__write("DELETE FROM sites WHERE id = ?", (site_id,))
 
+    def get_tags(self):
+        tags = self.__read_many_single_column("SELECT name FROM tags", ())
+        return tags
+
     def close(self):
         self.__db_cursor.close()
         self.__db_connection.close()

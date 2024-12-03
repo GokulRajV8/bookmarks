@@ -40,5 +40,22 @@ class Service:
         self.__db_engine.delete_tags_map(site_id)
         self.__db_engine.delete_site(site_id)
 
+    def read_tags(self):
+        tags = self.__db_engine.get_tags()
+
+        private_tags = []
+        public_tags = []
+        for tag in tags:
+            if tag.startswith("."):
+                private_tags.append(tag)
+            else:
+                public_tags.append(tag)
+
+        # sorting tags alphabetically
+        private_tags.sort()
+        public_tags.sort()
+
+        return public_tags + private_tags
+
     def close(self):
         self.__db_engine.close()
