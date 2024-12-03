@@ -1,11 +1,13 @@
 import sqlite3
 import sys
+import threading
 
 
 class DBEngine:
-    def __init__(self, db_file: str):
-        self.__db_connection = sqlite3.connect(db_file)
+    def __init__(self, db_file: str, db_lock: threading.Lock):
+        self.__db_connection = sqlite3.connect(db_file, check_same_thread=False)
         self.__db_cursor = self.__db_connection.cursor()
+        self.__db_lock = db_lock
 
     def create_tables(self):
         self.__db_cursor.execute(
@@ -40,8 +42,9 @@ class DBEngine:
 
     def __write(self, query: str, params: tuple):
         try:
-            self.__db_cursor.execute(query, params)
-            self.__db_connection.commit()
+            with self.__db_lock:
+                self.__db_cursor.execute(query, params)
+                self.__db_connection.commit()
         except sqlite3.Error as e:
             print(e.args)
             sys.exit(1)

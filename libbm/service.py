@@ -1,15 +1,16 @@
 import os
+import threading
 
 from . import DBEngine
 
 
 class Service:
-    def __init__(self, db_file: str):
+    def __init__(self, db_file: str, db_lock: threading.Lock):
         if os.path.isfile(db_file):
-            self.__db_engine = DBEngine(db_file)
+            self.__db_engine = DBEngine(db_file, db_lock)
         else:
             open(db_file, "w").close()
-            self.__db_engine = DBEngine(db_file)
+            self.__db_engine = DBEngine(db_file, db_lock)
             self.__db_engine.create_tables()
 
     def create_site(self, site_name: str, site_url: str, tags: list[str]):
