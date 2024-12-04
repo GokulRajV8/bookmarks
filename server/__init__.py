@@ -2,12 +2,17 @@
 Server package for web version
 """
 
+import html
 import os
+import re
 import threading
+
+import requests
 
 from flask import Flask
 from flask import jsonify
 from flask import request
+from flask import Response
 from flask_restful import Api
 from flask_restful import Resource
 
@@ -119,8 +124,24 @@ class TagResource(Resource):
         return jsonify(response)
 
 
+class SiteTitleResource(Resource):
+    def post(self):
+        url = request.get_data(as_text=True)
+        try:
+            response_from_site = requests.get(url=url).text
+            title = re.findall("<title>(.+?)</title>", response_from_site)[0]
+            response_raw = html.unescape(title)
+        except Exception as e:
+            print(e.args)
+            response_raw = "Unable to get title"
+        return Response(response_raw, mimetype="text/plain")
+
+
 # creating app and api and mapping resources
 app = Flask("bookmarks-manager-api")
 api = Api(app)
-api.add_resource(SiteResource, "/api/site", endpoint="api/site")
-api.add_resource(TagResource, "/api/tags", endpoint="api/tags")
+api.add_resource(SiteResource, "/bookmarks/api/site", endpoint="bookmarks/api/site")
+api.add_resource(TagResource, "/bookmarks/api/tags", endpoint="bookmarks/api/tags")
+api.add_resource(
+    SiteTitleResource, "/bookmarks/api/sitetitle", endpoint="bookmarks/api/sitetitle"
+)
