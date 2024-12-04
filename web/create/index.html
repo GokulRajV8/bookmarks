@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a site</title>
+
+    <script src='/bookmarks/static/js/main.js'></script>
+</head>
+
+<body>
+    <div id='message'></div>
+    <form action='submit'>
+        <label for='sname'>Title : </label>
+        <input type='textarea' id='sname' name='name' autocomplete="off"><br />
+
+        <label for='surl'>URL : </label>
+        <input type='text' id='surl' name='url'><br />
+
+        <label for='stags'>Tags : </label>
+        <input type='textarea' id='stags' name='tags'><br />
+
+        <button type='submit'>Submit</button>
+        <button type='reset'>Reset</button>
+        <button type='button' id='get-title-button'>Get title</button>
+    </form>
+    <script>
+        initCreatePage();
+    </script>
+</body>
+
+</html>
