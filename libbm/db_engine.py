@@ -117,7 +117,10 @@ class DBEngine:
         self.__write("DELETE FROM sites WHERE id = ?", (site_id,))
 
     def get_tags(self):
-        tags = self.__read_many_single_column("SELECT name FROM tags", ())
+        tags = self.__read_many_single_column(
+            "SELECT DISTINCT t.name FROM tags t, site_tag_map stm WHERE t.id = stm.tag_id",
+            (),
+        )
         return tags
 
     def close(self):
