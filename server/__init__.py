@@ -26,11 +26,15 @@ bm_service = BMService(
 
 
 class SiteResource(Resource):
-    def generate_site_data(self, id: str, title: str, url: str) -> dict:
+    def generate_site_data(
+        self, id: str, title: str, url: str, tags: str = None
+    ) -> dict:
         result = {}
         result["id"] = id
         result["title"] = title
         result["url"] = url
+        if tags is not None:
+            result["tags"] = tags
 
         return result
 
@@ -45,7 +49,7 @@ class SiteResource(Resource):
     def get_site_from_id(self, site_id: str) -> dict:
         site = bm_service.read_site(site_id)
         if site is not None:
-            return self.generate_site_data(site[0], site[1], site[2])
+            return self.generate_site_data(site[0], site[1], site[2], site[3])
         else:
             return {}
 

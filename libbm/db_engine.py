@@ -123,6 +123,12 @@ class DBEngine:
         )
         return tags
 
+    def get_tags_for_site(self, site_id: str) -> list[str]:
+        return self.__read_many_single_column(
+            "SELECT t.name FROM tags t, site_tag_map stm WHERE t.id = stm.tag_id AND stm.site_id = ?",
+            (site_id,),
+        )
+
     def close(self):
         self.__db_cursor.close()
         self.__db_connection.close()

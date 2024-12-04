@@ -20,7 +20,10 @@ class Service:
             self.__db_engine.map_site_tag(site_id, tag_id)
 
     def read_site(self, site_id: str) -> tuple:
-        return self.__db_engine.get_site(site_id)
+        site_data = self.__db_engine.get_site(site_id)
+        site_tags = self.__db_engine.get_tags_for_site(site_id)
+
+        return *site_data, " ".join(site_tags)
 
     def read_sites(self, tags: list[str]) -> list[tuple]:
         sites = self.__db_engine.get_sites(tags)
