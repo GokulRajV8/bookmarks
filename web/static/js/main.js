@@ -1,3 +1,40 @@
+/* UI functions */
+
+function getEditButton(siteId) {
+    const button = document.createElement('button');
+    button.textContent = 'Edit'
+    button.addEventListener('click', () => {
+        window.location = '/bookmarks/edit/?id=' + siteId;
+    });
+
+    return button;
+}
+
+function getDeleteButton(siteId, siteTitle) {
+    const button = document.createElement('button');
+    button.textContent = 'Delete'
+    button.addEventListener('click', () => {
+        response = confirm('Are you sure you want to delete link : ' + siteTitle);
+        if (response) {
+            fetch('/bookmarks/api/site?id=' + siteId, { method: 'DELETE' });
+            location.reload();
+        }
+    });
+
+    return button;
+}
+
+function activateSubmitButton(form) {
+    const button = document.querySelector('#submit-button');
+    if (form.url.value == '' || form.name.value == '' || form.tags.value == '') {
+        button.disabled = true;
+    } else {
+        button.disabled = false;
+    }
+}
+
+/* API contacting functions */
+
 async function getTags() {
     const mainArea = document.querySelector('main');
     const url = '/bookmarks/api/tags';
@@ -60,30 +97,6 @@ async function formSubmitCreate(event) {
     }
 }
 
-function getEditButton(siteId) {
-    const button = document.createElement('button');
-    button.textContent = 'Edit'
-    button.addEventListener('click', () => {
-        window.location = '/bookmarks/edit/?id=' + siteId;
-    });
-
-    return button;
-}
-
-function getDeleteButton(siteId, siteTitle) {
-    const button = document.createElement('button');
-    button.textContent = 'Delete'
-    button.addEventListener('click', () => {
-        response = confirm('Are you sure you want to delete link : ' + siteTitle);
-        if (response) {
-            fetch('/bookmarks/api/site?id=' + siteId, { method: 'DELETE' });
-            location.reload();
-        }
-    });
-
-    return button;
-}
-
 async function getSitesForTags(tags) {
     document.querySelector('#stags').value = tags;
     if (tags == null)
@@ -121,6 +134,8 @@ async function populateEditForm(form, siteId) {
     form.name.value = siteData.title;
     form.url.value = siteData.url;
     form.tags.value = siteData.tags;
+
+    activateSubmitButton(form);
 }
 
 async function formSubmitEdit(form, siteId) {
@@ -156,6 +171,9 @@ function initCreatePage() {
         event.preventDefault();
     });
     document.querySelector('#get-title-button').addEventListener('click', getTitleFromURL);
+    form.addEventListener('change', () => {
+        activateSubmitButton(form);
+    });
 }
 
 function initSitesPage() {
@@ -169,8 +187,12 @@ function initEditPage() {
     const id = urlParams.get('id')
     const form = document.querySelector('form');
     populateEditForm(form, id);
+
     form.addEventListener('submit', (event) => {
         formSubmitEdit(form, id);
         event.preventDefault();
+    });
+    form.addEventListener('change', () => {
+        activateSubmitButton(form);
     });
 }
