@@ -190,6 +190,7 @@ function initEditPage() {
     const form = document.querySelector('form');
     populateEditForm(form, id);
 
+    document.querySelector('#get-title-button').addEventListener('click', getTitleFromURL);
     form.addEventListener('submit', (event) => {
         formSubmitEdit(form, id);
         event.preventDefault();
