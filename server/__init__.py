@@ -135,10 +135,12 @@ class SiteTitleResource(Resource):
             response_from_site = requests.get(url=url).text
             title = re.findall("<title>(.+?)</title>", response_from_site)[0]
             response_raw = html.unescape(title)
+            response_status = 200
         except Exception as e:
             print(e.args)
             response_raw = "Unable to get title"
-        return Response(response_raw, mimetype="text/plain")
+            response_status = 400
+        return Response(response_raw, mimetype="text/plain", status=response_status)
 
 
 # creating app and api and mapping resources
