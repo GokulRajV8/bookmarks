@@ -6,25 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create a site</title>
 
+    <link rel='stylesheet' href='/bookmarks/static/css/main.css'>
     <script src='/bookmarks/static/js/main.js'></script>
 </head>
 
 <body>
-    <div id='message'></div>
-    <form>
-        <label for='surl'>URL : </label>
-        <input type='text' id='surl' name='url'><br />
+    <main>
+        <button class='back-button'>Back</button>
+        <h2>Create a site</h2>
+        <div id='message'></div>
+        <form>
+            <label for='surl'>URL : </label>
+            <input type='text' id='surl' name='url'><br />
 
-        <label for='sname'>Title : </label>
-        <input type='textarea' id='sname' name='name' autocomplete="off"><br />
+            <label for='sname'>Title : </label>
+            <textarea id='sname' name='name' autocomplete="off" rows='5'></textarea>
 
-        <label for='stags'>Tags : </label>
-        <input type='textarea' id='stags' name='tags'><br />
+            <label for='stags'>Tags : </label>
+            <textarea id='stags' name='tags' rows='2'></textarea>
 
-        <button type='submit' id='submit-button' disabled>Submit</button>
-        <button type='reset' id='reset-button'>Reset</button>
-        <button type='button' id='get-title-button'>Get title</button>
-    </form>
+            <button type='submit' id='submit-button' disabled>Submit</button>
+            <button type='reset' id='reset-button'>Reset</button>
+            <button type='button' id='get-title-button'>Get title</button>
+        </form>
+    </main>
     <script>
         initCreatePage();
     </script>
