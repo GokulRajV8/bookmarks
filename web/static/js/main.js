@@ -150,8 +150,8 @@ function initTagsPage() {
 }
 
 function initCreatePage() {
-    const siteForm = document.querySelector('form');
-    siteForm.addEventListener('submit', (event) => {
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (event) => {
         formSubmitCreate(event);
         event.preventDefault();
     });
