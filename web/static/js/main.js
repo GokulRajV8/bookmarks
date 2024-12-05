@@ -2,9 +2,9 @@
 
 function getEditButton(siteId) {
     const button = document.createElement('button');
-    button.textContent = 'Edit'
+    button.textContent = 'Edit';
     button.addEventListener('click', () => {
-        window.location = '/bookmarks/edit/?id=' + siteId;
+        location = '/bookmarks/edit/?id=' + siteId;
     });
 
     return button;
@@ -12,7 +12,7 @@ function getEditButton(siteId) {
 
 function getDeleteButton(siteId, siteTitle) {
     const button = document.createElement('button');
-    button.textContent = 'Delete'
+    button.textContent = 'Delete';
     button.addEventListener('click', () => {
         response = confirm('Are you sure you want to delete link : ' + siteTitle);
         if (response) {
@@ -37,10 +37,8 @@ function activateSubmitButton(form) {
 
 async function getTags() {
     const mainArea = document.querySelector('main');
-    const url = '/bookmarks/api/tags';
-
     try {
-        const response = await fetch(url);
+        const response = await fetch('/bookmarks/api/tags');
         const tags = await response.json();
 
         const list = document.createElement('ul');
@@ -61,29 +59,25 @@ async function getTags() {
 
 async function getTitleFromURL() {
     const titleInput = document.querySelector('#sname');
-    const url = document.querySelector('#surl').value;
     const button = document.querySelector('#get-title-button');
-    button.disabled = true;
 
+    button.disabled = true;
     try {
-        const siteData = await fetch('/bookmarks/api/sitetitle', { method: 'POST', body: url });
+        const siteData = await fetch('/bookmarks/api/sitetitle', { method: 'POST', body: document.querySelector('#surl').value });
         const textData = await siteData.text();
         titleInput.value = textData;
     } catch {
         titleInput.value = 'Unable to fetch URL title';
     }
-
     button.disabled = false;
 }
 
 async function formSubmitCreate(event) {
-    url = '/bookmarks/api/site';
-    const formData = new FormData(event.target);
     const messageArea = document.querySelector('#message');
     const message = document.createElement('p');
 
     try {
-        const response = await fetch(url, { method: 'POST', body: formData });
+        const response = await fetch('/bookmarks/api/site', { method: 'POST', body: new FormData(event.target) });
         if (response.ok)
             message.textContent = 'Data added successfully!';
         else
@@ -99,10 +93,8 @@ async function formSubmitCreate(event) {
 
 async function getSitesForTags(tags) {
     document.querySelector('#stags').value = tags;
-    if (tags == null)
-        return;
-    const url = '/bookmarks/api/site?tags=' + encodeURI(tags).replace(/%20/g, '+');
-    const responseFromServer = await fetch(url);
+    if (tags == null) return;
+    const responseFromServer = await fetch('/bookmarks/api/site?tags=' + encodeURI(tags).replace(/%20/g, '+'));
     const sites = await responseFromServer.json();
 
     const mainArea = document.querySelector('main');
@@ -127,8 +119,7 @@ async function getSitesForTags(tags) {
 }
 
 async function populateEditForm(form, siteId) {
-    const url = '/bookmarks/api/site?id=' + siteId;
-    const response = await fetch(url)
+    const response = await fetch('/bookmarks/api/site?id=' + siteId);
     const siteData = await response.json();
 
     form.name.value = siteData.title;
@@ -139,13 +130,11 @@ async function populateEditForm(form, siteId) {
 }
 
 async function formSubmitEdit(form, siteId) {
-    url = '/bookmarks/api/site?id=' + siteId;
-    const formData = new FormData(form);
     const messageArea = document.querySelector('#message');
     const message = document.createElement('p');
 
     try {
-        const response = await fetch(url, { method: 'PUT', body: formData });
+        const response = await fetch('/bookmarks/api/site?id=' + siteId, { method: 'PUT', body: new FormData(form) });
         if (response.ok)
             message.textContent = 'Data updated successfully!';
         else
@@ -166,11 +155,12 @@ function initTagsPage() {
 
 function initCreatePage() {
     const form = document.querySelector('form');
+
+    document.querySelector('#get-title-button').addEventListener('click', getTitleFromURL);
     form.addEventListener('submit', (event) => {
         formSubmitCreate(event);
         event.preventDefault();
     });
-    document.querySelector('#get-title-button').addEventListener('click', getTitleFromURL);
     form.addEventListener('change', () => {
         activateSubmitButton(form);
     });
@@ -178,13 +168,12 @@ function initCreatePage() {
 
 function initSitesPage() {
     const urlParams = new URLSearchParams(location.search);
-    const tags = urlParams.get('tags')
-    getSitesForTags(tags);
+    getSitesForTags(urlParams.get('tags'));
 }
 
 function initEditPage() {
     const urlParams = new URLSearchParams(location.search);
-    const id = urlParams.get('id')
+    const id = urlParams.get('id');
     const form = document.querySelector('form');
     populateEditForm(form, id);
 
