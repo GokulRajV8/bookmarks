@@ -61,7 +61,8 @@ async function getTags() {
             list.appendChild(listItem);
         }
     } catch {
-        mainArea.textContent = 'Unable to fetch data from API';
+        alert('Unable to fetch data from API');
+        location = '/bookmarks';
     }
 }
 
@@ -73,30 +74,27 @@ async function getTitleFromURL() {
     try {
         const siteData = await fetch('/bookmarks/api/sitetitle', { method: 'POST', body: document.querySelector('#surl').value });
         const textData = await siteData.text();
-        titleInput.value = textData;
+        if (siteData.ok)
+            titleInput.value = textData;
+        else
+            alert('Unable to fetch URL title');
     } catch {
-        titleInput.value = 'Unable to fetch URL title';
+        alert('Unable to fetch URL title');
     }
     button.disabled = false;
 }
 
 async function formSubmitCreate(event) {
-    const messageArea = document.querySelector('#message');
-    const message = document.createElement('p');
-
     try {
         const response = await fetch('/bookmarks/api/site', { method: 'POST', body: new FormData(event.target) });
         if (response.ok)
-            message.textContent = 'Data added successfully!';
+            alert('Data added successfully!');
         else
-            message.textContent = 'Data cannot be added!';
+            alert('Data cannot be added!');
     } catch {
-        message.textContent = 'Unable to process request!';
-    } finally {
-        messageArea.innerHTML = '';
-        messageArea.appendChild(message);
-        event.target.reset();
+        alert('Unable to process request!');
     }
+    location = '/bookmarks';
 }
 
 async function getSitesForTags(tags) {
@@ -143,20 +141,14 @@ async function populateEditForm(form, siteId) {
 }
 
 async function formSubmitEdit(form, siteId) {
-    const messageArea = document.querySelector('#message');
-    const message = document.createElement('p');
-
     try {
         const response = await fetch('/bookmarks/api/site?id=' + siteId, { method: 'PUT', body: new FormData(form) });
         if (response.ok)
-            message.textContent = 'Data updated successfully!';
+            alert('Data updated successfully!');
         else
-            message.textContent = 'Data cannot be updated!';
+            alert('Data cannot be updated!');
     } catch {
-        message.textContent = 'Unable to process request!';
-    } finally {
-        messageArea.innerHTML = '';
-        messageArea.appendChild(message);
+        alert('Unable to process request!');
     }
 }
 
