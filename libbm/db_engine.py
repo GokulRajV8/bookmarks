@@ -1,5 +1,4 @@
 import sqlite3
-import sys
 import threading
 
 
@@ -21,33 +20,21 @@ class DBEngine:
         )
 
     def __read_one(self, query: str, params: tuple) -> tuple:
-        try:
-            result = self.__db_cursor.execute(query, params).fetchone()
-            return result
-        except sqlite3.Error as e:
-            print(e.args)
-            sys.exit(1)
+        result = self.__db_cursor.execute(query, params).fetchone()
+        return result
 
     def __read_many(self, query: str, params: tuple) -> list[tuple]:
-        try:
-            result = self.__db_cursor.execute(query, params).fetchall()
-            return result
-        except sqlite3.Error as e:
-            print(e.args)
-            sys.exit(1)
+        result = self.__db_cursor.execute(query, params).fetchall()
+        return result
 
     def __read_many_single_column(self, query: str, params: tuple) -> list:
         result = self.__read_many(query, params)
         return [val[0] for val in result]
 
     def __write(self, query: str, params: tuple):
-        try:
-            with self.__db_lock:
-                self.__db_cursor.execute(query, params)
-                self.__db_connection.commit()
-        except sqlite3.Error as e:
-            print(e.args)
-            sys.exit(1)
+        with self.__db_lock:
+            self.__db_cursor.execute(query, params)
+            self.__db_connection.commit()
 
     def get_tag_id(self, tag_name: str) -> int:
         result = self.__read_one("SELECT id FROM tags WHERE name = ?", (tag_name,))
