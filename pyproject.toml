@@ -1,0 +1,26 @@
+[build-system]
+    requires = ["setuptools"]
+    build-backend = "setuptools.build_meta"
+
+[project]
+    name = "bookmarks"
+    version = "1.0"
+    description = "Save URL bookmarks using tag based system"
+    authors = [
+        { name = "Gokul Raj", email = "gokulraj059@gmail.com" },
+    ]
+    readme = "README.md"
+    license = { file = "LICENSE" }
+
+    requires-python = ">= 3.8"
+    dependencies = [
+        "requests",
+        "flask",
+        "flask_restful"
+    ]
+
+[tool.setuptools]
+    packages = ["libbm", "server"]
+
+[project.urls]
+    Homepage = "https://github.com/GokulRajV8/bookmarks"
