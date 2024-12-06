@@ -74,11 +74,10 @@ class SiteResource(Resource):
         if len(request.args) == 1:
             key = list(request.args.keys())[0]
             val = request.args[key]
-            match key:
-                case "id":
-                    response = self.get_site_from_id(val)
-                case "tags":
-                    response = self.get_sites_from_tags(val.split())
+            if key == "id":
+                response = self.get_site_from_id(val)
+            elif key == "tags":
+                response = self.get_sites_from_tags(val.split())
             response = jsonify(response) if response is not None else None
 
         if response is None:
@@ -111,10 +110,9 @@ class SiteResource(Resource):
         if len(request.args) == 1:
             key = list(request.args.keys())[0]
             val = request.args[key]
-            match key:
-                case "id":
-                    bm_service.delete_site(val)
-                    response = None, 200
+            if key == "id":
+                bm_service.delete_site(val)
+                response = None, 200
 
         if response is None:
             return None, 400
