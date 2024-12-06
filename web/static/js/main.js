@@ -52,7 +52,6 @@ async function getTags() {
         mainArea.appendChild(list);
         for (const tag of tags) {
             const listItem = document.createElement('li');
-            listItem.classList.add('list-item');
             const link = document.createElement('a');
             link.href = '/bookmarks/sites/?tags=' + tag;
             link.textContent = tag;
@@ -109,7 +108,6 @@ async function getSitesForTags(tags) {
 
     for (const site of sites) {
         const listItem = document.createElement('li');
-        listItem.classList.add('list-item');
         const buttonSection = document.createElement('div');
         buttonSection.classList.add('sites-button-section');
 
