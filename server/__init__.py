@@ -131,7 +131,9 @@ class SiteTitleResource(Resource):
         url = request.get_data(as_text=True)
         try:
             response_from_site = requests.get(url=url).text
-            title = re.findall("<title>(.+?)</title>", response_from_site)[0]
+            title = re.findall(
+                "<title>(.+?)</title>", response_from_site, flags=re.DOTALL
+            )[0]
             response_raw = html.unescape(title)
             response_status = 200
         except Exception as e:
