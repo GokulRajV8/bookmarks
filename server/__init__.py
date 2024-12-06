@@ -21,7 +21,7 @@ from libbm import Service as BMService
 # creating objects
 db_lock = threading.Lock()
 bm_service = BMService(
-    os.path.join(os.environ["USERPROFILE"], "Databases", "bookmarks.db"), db_lock
+    os.path.join(os.environ["USERPROFILE"], "databases", "bookmarks.db"), db_lock
 )
 
 
