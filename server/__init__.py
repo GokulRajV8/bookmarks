@@ -18,6 +18,14 @@ from flask_restful import Resource
 
 from libbm import Service as BMService
 
+
+class Constants:
+    API = "/bookmarks/api"
+    API_SITE = "site"
+    API_SITE_TITLE = "sitetitle"
+    API_TAGS = "tags"
+
+
 # creating objects
 db_lock = threading.Lock()
 bm_service = BMService(
@@ -146,8 +154,6 @@ class SiteTitleResource(Resource):
 # creating app and api and mapping resources
 app = Flask("bookmarks-manager-api")
 api = Api(app)
-api.add_resource(SiteResource, "/bookmarks/api/site", endpoint="bookmarks/api/site")
-api.add_resource(TagResource, "/bookmarks/api/tags", endpoint="bookmarks/api/tags")
-api.add_resource(
-    SiteTitleResource, "/bookmarks/api/sitetitle", endpoint="bookmarks/api/sitetitle"
-)
+api.add_resource(SiteResource, f"{Constants.API}/{Constants.API_SITE}")
+api.add_resource(TagResource, f"{Constants.API}/{Constants.API_TAGS}")
+api.add_resource(SiteTitleResource, f"{Constants.API}/{Constants.API_SITE_TITLE}")
