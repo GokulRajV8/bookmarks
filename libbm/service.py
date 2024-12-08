@@ -47,7 +47,8 @@ class Service:
         self.__db_engine.delete_site(site_id)
 
     def read_tags(self):
-        tags = self.__db_engine.get_tags().sort()
+        tags = self.__db_engine.get_tags()
+        tags.sort()
         return tags
 
     def close(self):
