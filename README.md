@@ -5,8 +5,9 @@ Save URL bookmarks using tag based system
 ## Requirements
 
 1. Any Linux based distro
-2. Gunicorn server
-3. Nginx server
+2. Python>=3.8
+3. Gunicorn server
+4. Nginx server
 
 ## Installation
 
