@@ -32,6 +32,6 @@ This is a web-based application and I have used Gunicorn as application (API) se
 
 3. Copy the contents in web directory somewhere so that it can be served as static content using Nginx alias. I have used `/bookmarks` alias to web directory. This alias should match with the value of `Constants.APP` in [main.js](web/static/js/main.js).
 
-4. Now that static content is served and API server is running, last step is to add Nginx proxy to our gunicorn server. Here our gunicorn server is running on port 4000, so we have added a proxy entry in Nginx server to forward requests to this port. We are using `/bookmarks/api` as our API server endpoint (can be seen as value of `Constants.API` in [__init__.py](server/__init__.py) and [main.js](web/static/js/main.js)) and hence the same is added as proxy entry in Nginx server.
+4. Now that static content is served and API server is running, last step is to add Nginx proxy to our gunicorn server. Here our gunicorn server is running on port 4000, so we have added a proxy entry in Nginx server to forward requests to this port. We are using `/bookmarks/api` as our API server endpoint (can be seen as value of `Constants.API` in [\_\_init\_\_.py](server/__init__.py) and [main.js](web/static/js/main.js)) and hence the same is added as proxy entry in Nginx server.
 
-5. Make sure that the constants in [__init__.py](server/__init__.py) and [main.js](web/static/js/main.js) are the same so that API call from static webpages will be routed correctly to our gunicorn server.
+5. Make sure that the constants in [\_\_init\_\_.py](server/__init__.py) and [main.js](web/static/js/main.js) are the same so that API call from static webpages will be routed correctly to our gunicorn server.
