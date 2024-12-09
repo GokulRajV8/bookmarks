@@ -2,6 +2,7 @@
 Server package for web version
 """
 
+import atexit
 import html
 import os
 import re
@@ -157,3 +158,6 @@ api = Api(app)
 api.add_resource(SiteResource, f"{Constants.API}/{Constants.API_SITE}")
 api.add_resource(TagResource, f"{Constants.API}/{Constants.API_TAGS}")
 api.add_resource(SiteTitleResource, f"{Constants.API}/{Constants.API_SITE_TITLE}")
+
+# cleaning up resources on exit
+atexit.register(lambda: bm_service.close())

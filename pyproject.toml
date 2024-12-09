@@ -16,7 +16,8 @@
     dependencies = [
         "requests",
         "flask",
-        "flask_restful"
+        "flask_restful",
+        "gunicorn"
     ]
 
 [tool.setuptools]

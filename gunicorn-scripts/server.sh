@@ -14,7 +14,7 @@ case $1 in
         if [ ! -f parent.pid ]; then
             echo 'No gunicorn server running'
         else
-            kill -9 `cat parent.pid`
+            kill -SIGTERM `cat parent.pid`
             echo 'Stopped gunicorn server'
             rm parent.pid access.log
         fi
