@@ -1,7 +1,6 @@
 # development
 __pycache__
-/.venv
 
 # build
+*.egg-info
 /build
-/*.egg-info
