@@ -6,7 +6,7 @@ case $1 in
             echo 'Already gunicorn server running'
         else
             source .venv/bin/activate
-            gunicorn server:app & > /dev/null 2>&1
+            gunicorn server:app > /dev/null 2>&1 &
             echo 'Started gunicorn server'
         fi
         ;;
