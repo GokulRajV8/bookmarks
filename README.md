@@ -6,7 +6,7 @@ Save URL bookmarks using tag based system
 
 1. Any Linux based distro
 2. Python >= 3.8
-4. Nginx server
+3. Nginx server
 
 ## Installation
 
